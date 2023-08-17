@@ -6,6 +6,7 @@ const updateFavorite = async (req, res) => {
   const body = req.body;
   const { error } = schemaFavorite.validate(body);
   if (error) {
+    error.message = "missing field favorite";
     error.status = 400;
     throw error;
   }
@@ -17,7 +18,7 @@ const updateFavorite = async (req, res) => {
     error.status = 404;
     throw error;
   }
-  res.json({
+  res.status(200).json({
     status: "updated success",
     data: {
       result: updatedContact,
