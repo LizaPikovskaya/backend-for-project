@@ -1,10 +1,10 @@
 const Contact = require("../../models/contact");
-const { schema } = require("../../schemas/schemaJoi");
+const { schemaFavorite } = require("../../schemas/schemaJoi");
 
-const update = async (req, res) => {
+const updateFavorite = async (req, res) => {
   const { contactId } = req.params;
   const body = req.body;
-  const { error } = schema.validate(body);
+  const { error } = schemaFavorite.validate(body);
   if (error) {
     error.status = 400;
     throw error;
@@ -25,4 +25,4 @@ const update = async (req, res) => {
   });
 };
 
-module.exports = update;
+module.exports = updateFavorite;
