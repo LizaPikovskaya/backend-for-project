@@ -1,5 +1,4 @@
-const Contact = require("../../models/contact");
-const { schema } = require("../../schemas/schemaJoi");
+const { Contact, schema } = require("../../models/contact");
 
 const add = async (req, res) => {
   const body = req.body;

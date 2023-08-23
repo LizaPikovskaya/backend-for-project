@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const operations = require("../../models/contacts");
 
-const controller = require("../../controllers/index");
+const { contacts: controller } = require("../../controllers/index");
 const errorHandler = require("../../helpers/errorHandler");
 const isValidId = require("../../middlewares/isValidId");
 
