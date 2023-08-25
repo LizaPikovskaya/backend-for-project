@@ -9,5 +9,6 @@ router.post("/register", errorHandler(controller.register));
 router.post("/login", errorHandler(controller.login));
 router.get("/current", auth, errorHandler(controller.getCurrent));
 router.get("/logout", auth, errorHandler(controller.logout));
+router.patch("/", auth, errorHandler(controller.updateSubscription));
 
 module.exports = router;
