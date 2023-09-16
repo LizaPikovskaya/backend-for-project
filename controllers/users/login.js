@@ -13,8 +13,8 @@ const login = async (req, res) => {
   }
   const user = await User.findOne({ email });
   const comparePassword = await bcrypt.compare(password, user.password);
-  if (!user || !comparePassword) {
-    throw HttpError(401, "Email or password is wrong");
+  if (!user || !user.verify || !comparePassword) {
+    throw HttpError(401, "Email, password is wrong or not verify.");
   }
   const payload = { id: user._id };
   const token = jwt.sign(payload, process.env.SECRET_KEY, {
