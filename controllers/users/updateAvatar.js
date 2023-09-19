@@ -9,7 +9,6 @@ const updateAvatar = async (req, res) => {
   console.log("REQ.FILE", req.file);
   const { _id } = req.user;
   const { path: tempUpload, originalname } = req.file;
-  console.log(tempUpload);
   const imageName = `${_id}_${originalname}`;
   try {
     const image = await Jimp.read(tempUpload);
@@ -18,7 +17,6 @@ const updateAvatar = async (req, res) => {
     const resultUpload = path.join(avatarsDir, imageName);
     await fs.rename(tempUpload, resultUpload);
     const avatarURL = path.join("public", "avatars", imageName);
-    console.log(avatarURL);
     await User.findByIdAndUpdate(_id, { avatarURL });
     res.json({
       avatarURL,

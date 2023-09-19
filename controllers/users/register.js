@@ -4,8 +4,7 @@ const { User } = require("../../models/user");
 const { nanoid } = require("nanoid");
 const bcrypt = require("bcrypt");
 const gravatar = require("gravatar");
-const sendEmail = require("../../helpers/sendEmail");
-const { BASE_URL } = process.env;
+
 const register = async (req, res) => {
   const { email, password, name } = req.body;
   const { error } = registerSchema.validate(req.body);
@@ -28,21 +27,12 @@ const register = async (req, res) => {
     verificationToken,
   });
 
-  const mail = {
-    to: email,
-    subject: "Підтвердження реєстрації",
-    html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${verificationToken}">Для підтвердження реєстрації перейдіть по посиланню.</a>`,
-  };
-
-  sendEmail(mail);
-
   res.status(201).json({
     status: "success",
     code: 201,
     data: {
       user: {
         email,
-        subscription: newUser.subscription,
       },
     },
   });

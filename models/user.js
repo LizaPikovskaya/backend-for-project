@@ -13,11 +13,6 @@ const userSchema = new Schema(
       required: [true, "Email is required"],
       unique: true,
     },
-    subscription: {
-      type: String,
-      enum: ["starter", "pro", "business"],
-      default: "starter",
-    },
     token: String,
     avatarURL: String,
     verify: {
@@ -45,10 +40,6 @@ const loginSchema = Joi.object({
   password: Joi.string().min(8).required(),
 });
 
-const subscriptionSchema = Joi.object({
-  subscription: Joi.string().valid("starter", "pro", "business"),
-});
-
 const verifyEmailSchema = Joi.object({
   email: Joi.string().required(),
 });
@@ -58,6 +49,5 @@ module.exports = {
   User,
   registerSchema,
   loginSchema,
-  subscriptionSchema,
   verifyEmailSchema,
 };

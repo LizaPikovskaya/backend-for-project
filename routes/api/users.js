@@ -9,15 +9,11 @@ router.post("/register", errorHandler(controller.register));
 router.post("/login", errorHandler(controller.login));
 router.get("/current", auth, errorHandler(controller.getCurrent));
 router.get("/logout", auth, errorHandler(controller.logout));
-router.patch("/", auth, errorHandler(controller.updateSubscription));
 router.patch(
   "/avatars",
   auth,
   upload.single("avatar"),
   errorHandler(controller.updateAvatar)
 );
-
-router.get("/verify/:verificationToken", errorHandler(controller.verifyEmail));
-router.post("/verify", errorHandler(controller.resendVerifyEmail));
 
 module.exports = router;
