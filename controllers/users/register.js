@@ -7,6 +7,13 @@ const gravatar = require("gravatar");
 
 const register = async (req, res) => {
   const { email, password, name } = req.body;
+  console.log({
+    email,
+    password,
+    name,
+  });
+
+  console.log("BODY => ", req.body);
   const { error } = registerSchema.validate(req.body);
   if (error) {
     error.status = 400;
