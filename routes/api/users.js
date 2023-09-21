@@ -8,12 +8,7 @@ const { users: controller } = require("../../controllers/index");
 const errorHandler = require("../../helpers/errorHandler");
 const { updateUserSchema, subscribeEmailSchema } = require("../../models/user");
 
-<<<<<<< HEAD
-router.post("/register", errorHandler(controller.register));
-router.post("/login", errorHandler(controller.login));
-router.get("/logout", auth, errorHandler(controller.logout));
-=======
->>>>>>> MolchanovSergii-users_auth
+
 router.get("/current", auth, errorHandler(controller.getCurrent));
 router.patch(
   "/update",
