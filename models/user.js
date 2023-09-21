@@ -39,14 +39,14 @@ const userSchema = new Schema(
     avatarURL: {
       type: String,
     },
-    verify: {
-      type: Boolean,
-      default: false,
-    },
-    verificationToken: {
-      type: String,
-      required: [true, "Verify token is required"],
-    },
+    // verify: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    // verificationToken: {
+    //   type: String,
+    //   required: [true, "Verify token is required"],
+    // },
   },
   { versionKey: false, timestamps: true }
 );
@@ -69,7 +69,7 @@ const verifyEmailSchema = Joi.object({
   email: Joi.string().required(),
 });
 const updateUserSchema = Joi.object({
-  email: Joi.string().pattern(emailRegexp),
+  avatarURL: Joi.string(),
   name: Joi.string().min(2),
 });
 
