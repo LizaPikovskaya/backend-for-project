@@ -114,7 +114,7 @@
     "/api/auth/signout": {
       "post": {
         "tags": ["Auth"],
-        "summary": "User login",
+        "summary": "User logout",
         "parameters": [],
         "security": [{ "Bearer": [] }],
         "requestBody": {},
@@ -234,7 +234,7 @@
       },
       "LoginRequest": {
         "type": "object",
-        "required": ["email", "password", "name", "birthDate"],
+        "required": ["email", "password"],
         "properties": {
           "email": {
             "type": "string",
@@ -279,7 +279,7 @@
           "type": "object",
           "properties": {
             "drink": {
-              "type": "sstring",
+              "type": "string",
               "description": "Name of drink"
             },
             "drinkAlternate": {
