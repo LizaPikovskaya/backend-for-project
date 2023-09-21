@@ -7,13 +7,14 @@ const errorHandler = require("../../helpers/errorHandler");
 
 router.post("/register", errorHandler(controller.register));
 router.post("/login", errorHandler(controller.login));
-router.get("/current", auth, errorHandler(controller.getCurrent));
 router.get("/logout", auth, errorHandler(controller.logout));
+router.get("/current", auth, errorHandler(controller.getCurrent));
 router.patch(
-  "/avatars",
+  "/update",
   auth,
   upload.single("avatar"),
   errorHandler(controller.updateAvatar)
 );
+router.post("/subscribe", auth, errorHandler(controller.updateSubscription));
 
 module.exports = router;

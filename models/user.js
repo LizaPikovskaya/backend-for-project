@@ -4,6 +4,10 @@ const errorMongooseHandler = require("../helpers/errorMongooseHandler");
 
 const userSchema = new Schema(
   {
+    name: {
+      type: String,
+      required: [true, "Set name for user"],
+    },
     password: {
       type: String,
       required: [true, "Set password for user"],
@@ -13,8 +17,21 @@ const userSchema = new Schema(
       required: [true, "Email is required"],
       unique: true,
     },
-    token: String,
-    avatarURL: String,
+    birthDate: {
+      type: Date,
+      required: [true, "BirthDate is required"],
+    },
+    token: {
+      type: String,
+      default: "",
+    },
+    avatarURL: {
+      type: String,
+    },
+    subscription: {
+      type: Boolean,
+      default: false,
+    },
     verify: {
       type: Boolean,
       default: false,
@@ -33,6 +50,7 @@ const registerSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().required(),
   password: Joi.string().min(8).required(),
+  birthDate: Joi.date().required(),
 });
 
 const loginSchema = Joi.object({
@@ -43,6 +61,7 @@ const loginSchema = Joi.object({
 const verifyEmailSchema = Joi.object({
   email: Joi.string().required(),
 });
+
 const User = model("user", userSchema);
 
 module.exports = {
