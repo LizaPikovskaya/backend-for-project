@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 const gravatar = require("gravatar");
 
 const register = async (req, res) => {
-  const { email, password, name } = req.body;
+  const { email, password, name, birthDate } = req.body;
   console.log({
     email,
     password,
@@ -31,6 +31,7 @@ const register = async (req, res) => {
     password: hashPassword,
     name,
     avatarURL,
+    birthDate,
     // verificationToken,
   });
 

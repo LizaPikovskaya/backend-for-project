@@ -21,7 +21,7 @@ const userSchema = new Schema(
       unique: true,
     },
     birthDate: {
-      type: Date,
+      type: Number,
       required: [true, "BirthDate is required"],
     },
     token: {
