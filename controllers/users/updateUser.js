@@ -2,13 +2,19 @@ const HttpError = require("../../helpers/HttpError");
 const { User } = require("../../models/user");
 
 const updateUser = async (req, res) => {
-  const { name, email } = req.body;
+  const { name } = req.body;
+
+  console.log(req.file);
+
+  if (!req.file || !req.file.path) {
+    throw HttpError(400, "File is required for this request");
+  }
+
+  const avatarURL = req.file.path;
 
   let updates = {};
   if (name) updates.name = name;
-  if (email) updates.email = email;
-
-  console.log(req.user._id);
+  if (avatarURL) updates.avatarURL = avatarURL;
 
   const user = await User.findByIdAndUpdate(
     req.user._id,
@@ -25,7 +31,7 @@ const updateUser = async (req, res) => {
     code: 200,
     data: {
       name: user.name,
-      email: user.email,
+      avatarURL: user.avatarURL,
     },
   });
 };
