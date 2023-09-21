@@ -22,10 +22,15 @@ const userSchema = new Schema(
     },
     subscriptionEmail: {
       type: String,
+      default: "",
     },
     birthDate: {
       type: Number,
       required: [true, "BirthDate is required"],
+    },
+    adult: {
+      type: Boolean,
+      default: false,
     },
     token: {
       type: String,
@@ -33,10 +38,6 @@ const userSchema = new Schema(
     },
     avatarURL: {
       type: String,
-    },
-    subscription: {
-      type: Boolean,
-      default: false,
     },
     verify: {
       type: Boolean,
