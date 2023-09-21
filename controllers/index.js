@@ -1,3 +1,5 @@
 const users = require("./users");
 const drinks = require("./drinks");
-module.exports = { users, drinks };
+const auth = require("./auth");
+
+module.exports = { users, auth, drinks };
