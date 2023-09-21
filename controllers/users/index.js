@@ -1,13 +1,9 @@
-const register = require("./register");
-const login = require("./login");
 const getCurrent = require("./getCurrent");
-const logout = require("./logout");
-const updateAvatar = require("./updateAvatar");
+const updateUser = require("./updateUser");
+const subscribeEmail = require("./subscribeEmail");
 
 module.exports = {
-  register,
-  login,
   getCurrent,
-  logout,
-  updateAvatar,
+  updateUser,
+  subscribeEmail,
 };
