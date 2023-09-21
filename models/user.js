@@ -69,7 +69,6 @@ const verifyEmailSchema = Joi.object({
   email: Joi.string().required(),
 });
 const updateUserSchema = Joi.object({
-  avatarURL: Joi.string(),
   name: Joi.string().min(2),
 });
 
