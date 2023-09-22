@@ -9,7 +9,7 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "consumes": ["application/json"],
+  "consumes": ["application/json", "multipart/form-data"],
   "produces": ["application/json"],
   "servers": [
     { "url": "http://localhost:3000" },
@@ -35,12 +35,11 @@
     }
   ],
   "paths": {
-    "/auth/register": {
+    "/api/auth/signup": {
       "post": {
         "tags": ["Auth"],
         "summary": "User registration",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Registration's object",
           "required": true,
@@ -68,12 +67,80 @@
             "content": {}
           },
           "409": {
-            "description": "Provided email already exists",
+            "description": "Provided email already exists (Email in use)",
             "content": {}
           }
         }
       }
     },
+    "/api/auth/signin": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User login",
+        "parameters": [],
+        "requestBody": {
+          "description": "Login data object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation of login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Email, password is wrong or not verify.",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/auth/signout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User logout",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {},
+        "responses": {
+          "204": {
+            "description": "Successful operation of logout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          }
+        }
+      }
+    },
+
     "/api/drinks/mainpage": {
       "get": {
         "tags": ["Drinks"],
@@ -119,6 +186,67 @@
     "schemas": {
       "RegistrationRequest": {
         "type": "object",
+        "required": ["email", "password", "name", "birthDate"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's password",
+            "example": "OurUser"
+          },
+          "birthDate": {
+            "type": "number",
+            "description": "Birth Data our users",
+            "example": "1000924800"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password hash",
+            "example": "qwe/A554rty1DDddgG23"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's Name",
+            "example": "OurUser"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "URL from saved User's avatar",
+            "example": "www.cloud.com/avatar/c73e3fb5ccb242540b08931"
+          },
+          "birthDate": {
+            "type": "number",
+            "description": "Birth Data our users",
+            "example": "1000924800"
+          },
+          "adult": {
+            "type": "boolean",
+            "description": "Our User adult or not adult",
+            "example": false
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
         "required": ["email", "password"],
         "properties": {
           "email": {
@@ -133,35 +261,38 @@
           }
         }
       },
-      "RegistrationResponse": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
-            },
-            "userId": {
-              "type": "number",
-              "description": "User's id",
-              "example": "32143232436545474"
-            }
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "User's session's token",
+            "example": "Ouzzfdf6545464FFFFser"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "adult": {
+            "type": "boolean",
+            "description": "Our User adult or not adult",
+            "example": false
           }
-        },
-        "example": [
-          { "email": "1@gmail.com", "userId": "1" },
-          { "email": "2@gmail.com", "userId": "2" }
-        ]
+        }
       },
+      "LogoutResponse": {
+        "type": "object",
+        "properties": {}
+      },
+
       "recipesResponse": {
         "type": "array",
         "items": {
           "type": "object",
           "properties": {
             "drink": {
-              "type": "sstring",
+              "type": "string",
               "description": "Name of drink"
             },
             "drinkAlternate": {
@@ -175,14 +306,13 @@
           { "drink": "Porto flip", "drinkAlternate": "Sorry, not specified" }
         ]
       }
-    }
-  },
-
-  "securitySchemes": {
-    "Bearer": {
-      "type": "http",
-      "scheme": "bearer",
-      "bearerFormat": "JWT"
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
     }
   }
 }
