@@ -140,6 +140,116 @@
         }
       }
     },
+    "/api/users/current": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get current User information",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCurrentUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/users/update": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "User profile update",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Date for update User profile",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation of subscribe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateProfileResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request ( File is required for this request)",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "User not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/users/subscribe": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User subscription to e-mails",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "E-mail for subscription",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscribeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation of subscribe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscribeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request ( Email is required)",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          }
+        }
+      }
+    },
 
     "/api/drinks/mainpage": {
       "get": {
@@ -147,16 +257,16 @@
         "summary": "array of objects recipes drinks",
         "parameters": [
           {
-            "name":"page",
-            "in":"query",
-            "schema": {"type": "number"},
-            "value":"1"
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "number" },
+            "value": "1"
           },
           {
-            "name":"limit",
-            "in":"query",
-            "schema": {"type": "number"},
-            "value":"10"
+            "name": "limit",
+            "in": "query",
+            "schema": { "type": "number" },
+            "value": "10"
           }
         ],
         "responses": {
@@ -284,6 +394,70 @@
       "LogoutResponse": {
         "type": "object",
         "properties": {}
+      },
+      "GetCurrentUserResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's Name",
+            "example": "UserName"
+          }
+        }
+      },
+      "SubscribeRequest": {
+        "type": "object",
+        "required": ["email"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          }
+        }
+      },
+      "SubscribeResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's e-mail for which subscribed ",
+            "format": "email"
+          }
+        }
+      },
+      "UpdateProfileRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's Name"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "User's avatar file"
+          }
+        }
+      },
+      "UpdateProfileResponse": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string" },
+          "code": { "type": "number" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "avatarURL": { "type": "string" }
+            }
+          }
+        }
       },
 
       "recipesResponse": {
