@@ -61,14 +61,42 @@ const recipesSchema = new Schema(
         ingredients:{
             type:Array,
         },
+        favorites:{
+            type:Array,
+        },
         shortDescription:{
             type:String,
         },
+        owner: {
+            type: Schema.Types.ObjectId,
+            ref: "users",
+        },
+    },
+    {
+        versionKey: false,
+        timestamps: true,
     }
 );
+
+recipesSchema.post("save", errorMongooseHandler);
+
+const schema = Joi.object({
+    drink: Joi.string().required(),
+    tags: Joi.string().required(),
+    category: Joi.string().required(),
+    alcoholic: Joi.string().required(),
+    glass: Joi.string().required(),
+    description: Joi.string().required(),
+    instructions: Joi.string().required(),
+    instructionsUK: Joi.string().required(),
+    drinkThumb: Joi.string().required(),
+    ingredients: Joi.array().required(),
+    shortDescription: Joi.string().required(),
+});
 
 const recipesModel = model('recipes', recipesSchema);
 
 module.exports = {
-    recipesModel
+    recipesModel,
+    schema,
 };
