@@ -4,12 +4,14 @@ const  HttpError = require('../../helpers/HttpError');
 const getRecipeById = async (req, res) => {
     const { adult } = req.user;
    // const adult = false;
- const id = req.params.recipeId;
- console.log('controll getRecipeById ', id);
+   // const id = req.params.recipeId;
  const recipe = await recipesModel.findById(req.params.recipeId);
+ if (!recipe) {
+   throw HttpError(404, 'Not found');
+}
  if (recipe.alcoholic === "Alcoholic") {
     if (!adult) {
-        throw HttpError(404, 'Not found');
+        throw HttpError(404, 'For adult only!');
     }
  }
  res.status(200).json({
