@@ -4,8 +4,6 @@ const { User } = require("../../models/user");
 const updateUser = async (req, res) => {
   const { name } = req.body;
 
-  console.log(req.file);
-
   if (!req.file || !req.file.path) {
     throw HttpError(400, "File is required for this request");
   }

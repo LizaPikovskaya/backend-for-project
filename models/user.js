@@ -68,6 +68,7 @@ const loginSchema = Joi.object({
 const verifyEmailSchema = Joi.object({
   email: Joi.string().required(),
 });
+
 const updateUserSchema = Joi.object({
   name: Joi.string().min(2),
 });
@@ -75,6 +76,7 @@ const updateUserSchema = Joi.object({
 const subscribeEmailSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp),
 });
+
 const User = model("user", userSchema);
 
 module.exports = {
